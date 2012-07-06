@@ -72,7 +72,7 @@
         $('#img').css("display", "none");
         $('#nat_img').css("display", "block");
         $('#text').css("display", "block");
-        $('#slider').css("display", "block");
+        $('#textbox').css("display", "block");
 
       }
       else {
@@ -81,7 +81,7 @@
         $('#img').css("display", "block");
         $('#nat_img').css("display", "none");
         $('#text').css("display", "none");
-        $('#slider').css("display", "none");
+        $('#textbox').css("display", "none");
 
       };
       size = document.height;
@@ -104,7 +104,7 @@
           });
         });
         var margin_top = parseInt(GET['nh']) + 30;
-        $('#slider').css("margin-top",  margin_top + "px");
+        $('#textbox').css("margin-top",  margin_top + "px");
         return;
       };
 
@@ -112,8 +112,13 @@
 
   </head>
   <body>
+  <div id="textbox" style="display:none;">
     <p style="font-size: 14px; float:left;margin:0px;margin-right:10px;margin-top:-2px">T</p>
     <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="font-size: 14px; width: 40%; float:left;margin:0px""><a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div>
     <p style="font-size: 26px; float:left; margin:0px;margin-left:10px; margin-top:-8px">T</p>
+  </div>
+
   <body>
 </html>
+
+
