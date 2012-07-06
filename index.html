@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" type="text/css" media="all">
+  <style type="text/css">
+  body {
+    margin: 0px;
+    padding: 20px;
+    background-color: #FFFFFF;
+    text-align: center;
+    }
+  textarea{
+    resize:none;
+    border: 0px;
+    padding: 0px;
+  }
+
+
+  </style>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    var parts=String(document.location).split("?",2)[1].split("&");
+    var GET={};
+    for (i=0; i<parts.length; i++) {
+       curr = parts[i].split('=');
+       GET[curr[0]] = curr[1];
+    }
+
+    var img = document.createElement('img');
+    img.setAttribute("id", "img");
+    img.src = decodeURIComponent(GET['u']);
+    img.style.width = GET['w']+"px";
+    img.style.height = GET['h']+"px";
+
+    var nat_img = document.createElement('img');
+    nat_img.setAttribute("id", "nat_img");
+    nat_img.src = decodeURIComponent(GET['u']);
+    nat_img.style.width = GET['nw']+"px";
+    nat_img.style.height = GET['nh']+"px";
+    nat_img.style.display = "none";
+    nat_img.style.top = "20px";
+    nat_img.style.left = "20px";
+    nat_img.style.position = "absolute";
+
+    var click = document.createElement('p');
+    click.setAttribute("id", "note");
+    click.innerText = "Click to note";
+
+
+    var textbox = document.createElement('textarea');
+    textbox.setAttribute("id", "text");
+    textbox.style.display = "none";
+    textbox.style.height = GET['nh']+"px";
+    textbox.style.width = GET['nw']+"px";
+    textbox.style.top = "20px";
+    textbox.style.left = "20px";
+    textbox.style.position = "absolute";
+    textbox.style.backgroundColor = "transparent";
+    textbox.style.color = "white";
+    textbox.style.zIndex = "100";
+    textbox.style.overflow = "hidden";
+
+
+    var size  = document.height;
+
+    $(window).resize(function() {
+      if (size < document.height) {
+
+        $('#note').css("display", "none");
+        $('#img').css("display", "none");
+        $('#nat_img').css("display", "block");
+        $('#text').css("display", "block");
+        $('#slider').css("display", "block");
+
+      }
+      else {
+
+        $('#note').css("display", "block");
+        $('#img').css("display", "block");
+        $('#nat_img').css("display", "none");
+        $('#text').css("display", "none");
+        $('#slider').css("display", "none");
+
+      };
+      size = document.height;
+
+    });
+
+    window.onload = function()
+      { 
+        document.body.appendChild(img);
+        document.body.appendChild(click);
+        document.body.appendChild(nat_img);
+        document.body.appendChild(textbox);
+        $(function() {
+          $( "#slider" ).slider({
+              slide: function(event, ui) { 
+                $('#text').css("font-size", ui.value+"px");},
+              min: 14,
+              max:192,
+        
+          });
+        });
+        var margin_top = parseInt(GET['nh']) + 30;
+        $('#slider').css("margin-top",  margin_top + "px");
+        return;
+      };
+
+  </script>
+
+  </head>
+  <body>
+  <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="display:none; font-size: 14px; width: 40%;"><a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div>
+
+  <body>
+</html>
