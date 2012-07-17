@@ -5,8 +5,7 @@
   <style type="text/css">
   body {
     margin: 0px;
-    padding: 20px;
-    background-color: #FFFFFF;
+    background-color: transparent;
     text-align: center;
     }
   textarea{
@@ -14,57 +13,168 @@
     border: 0px;
     padding: 0px;
   }
+  .ui-widget-content {
+    background: gray;
+    height: 1px;
+    }
+  .ui-slider-handle{
+    margin-top: -4px;
+  }
+  #lblock{
+    background-color: #FFF;
+    padding: 30px 30px 0px 30px;
+  }
+  #bblock{
+    background-color: #FFF;
+    padding: 30px 30px 0px 30px;
+    display: none;
+    margin-top: -20px;
+    height: 300px;
+    text-align: left;
+
+  }
+  #rblock {
+    float: right;
+    top: 20%;
+    position: absolute;
+    right: 0;
+    background-color: #FFF;
+    display: none;
+  }
+  #social > div {
+    display: block;
+    float: left;
+    width: 100%;
+    border-bottom: 2px solid gray 
+  }
+  #social > div.last {
+    border-bottom: 0;
+  }
+  #social > div > p{
+    margin: 6px;
+    padding: 0;
+    float: left;
+
+  }
+  #social > div > img {
+    width: 32px;
+    height: 32px;
+    float: left;
+  }
 
 
+    #social > div > label > p{
+    margin: 6px;
+    padding: 0;
+    float: left;
+    text-align: left;
+    width: 120px;
+
+  }
+  #social > div > label > img {
+    width: 32px;
+    height: 32px;
+    float: left;
+  }
+
+
+  #social{
+    width: 220px;
+  }
+
+  #user{
+    padding-top: 60px;
+    height: 50px;
+  }
+
+   label {
+    width: 52px;
+    height: 26px;
+    display: inline;
+    position: relative;
+   }
+   input[type="checkbox"] + span {
+    position: absolute;
+    right: -10px; top: 2px;
+    width: 52px;
+    height: 26px;
+    background: url(icon/big/button3.png) no-repeat;
+    background-position: -52px 0;
+    cursor: pointer;
+   }
+   input[type="checkbox"]:checked + span {
+    background-position: 0 0; 
+   }
+  .sendsubmit {
+    width:  50px; 
+    height: 50px; 
+    margin: 0;
+    padding:0;
+    border: 0;
+    background: transparent url('icon/big/andnote2.png') no-repeat center top;
+    text-indent: -10000em;
+    cursor: pointer; 
+    cursor: hand; 
+    z-index:100;
+    top: -29px; float:right; position:relative; right:0px;
+  }
+   
   </style>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js" type="text/javascript"></script>
 
   <script type="text/javascript">
-    var parts=String(document.location).split("?",2)[1].split("&");
-    var GET={};
-    for (i=0; i<parts.length; i++) {
-       curr = parts[i].split('=');
-       GET[curr[0]] = curr[1];
+    var parts=String(document.location.hash);
+    if (parts){
+      parts = parts.split("#",2)[1].split("&");
+      var GET={};
+      for (i=0; i<parts.length; i++) {
+         curr = parts[i].split('=');
+         GET[curr[0]] = curr[1];
+      }
     }
-
-    var img = document.createElement('img');
-    img.setAttribute("id", "img");
-    img.src = decodeURIComponent(GET['u']);
-    img.style.width = GET['w']+"px";
-    img.style.height = GET['h']+"px";
-
-    var nat_img = document.createElement('img');
-    nat_img.setAttribute("id", "nat_img");
-    nat_img.src = decodeURIComponent(GET['u']);
-    nat_img.style.width = GET['nw']+"px";
-    nat_img.style.height = GET['nh']+"px";
-    nat_img.style.display = "none";
-    nat_img.style.top = "20px";
-    nat_img.style.left = "20px";
-    nat_img.style.position = "absolute";
-
-    var click = document.createElement('p');
-    click.setAttribute("id", "note");
-    click.innerText = "Click to note";
+    else { var GET = {'w':'0', 'h':'0', 'nw':'0', 'nh':'0','u':'#', 'd':''}};
+      var img_w = GET['w']+"px";
+      var img_h = GET['h']+"px";
+      var nat_img_w = GET['nw']+"px";
+      var nat_img_h = GET['nh']+"px";
+    
+    
+    var img = $('<img>').attr({ 
+      id: 'img', 
+      src: decodeURIComponent(GET['u']), 
+      width: img_w, 
+      height: img_h,});
 
 
-    var textbox = document.createElement('textarea');
-    textbox.setAttribute("id", "text");
-    textbox.style.display = "none";
-    textbox.style.height = GET['nh']+"px";
-    textbox.style.width = GET['nw']+"px";
-    textbox.style.top = "20px";
-    textbox.style.left = "20px";
-    textbox.style.position = "absolute";
-    textbox.style.backgroundColor = "transparent";
-    textbox.style.color = "white";
-    textbox.style.zIndex = "100";
-    textbox.style.overflow = "hidden";
+    var nat_img = $('<img>').attr({ 
+      id: 'nat_img', 
+      src:decodeURIComponent(GET['u']), 
+      width: nat_img_w,
+      height: nat_img_h}).css({ 
+        display: 'none', 
+});
+
+    var click = $('<p>').attr({ 
+      id: 'note',}).text('Click to note').css({ margin: '0', padding: '15px 0 15px 0'});
+
+    var text = $('<textarea>').attr({ 
+      id: 'text',
+      name: 'text'}).css({ 
+        display: 'none',
+        height: nat_img_h,
+        width: nat_img_w,
+        top: '30px', 
+        left: '30px',
+        position: 'absolute',
+        backgroundColor: 'transparent',
+        color: 'white', 
+        zIndex: '100',
+        overflow: 'hidden'})
 
 
     var size  = document.height;
-
+    
     $(window).resize(function() {
       if (size < document.height) {
 
@@ -72,8 +182,10 @@
         $('#img').css("display", "none");
         $('#nat_img').css("display", "block");
         $('#text').css("display", "block");
-        $('#textbox').css("display", "block");
-
+        $('#panel').css("display", "block");
+        $('#rblock').css("display", "block");
+        $('#bblock').css("display", "block");
+        $('#lblock').css('width', nat_img_w)
       }
       else {
 
@@ -81,8 +193,10 @@
         $('#img').css("display", "block");
         $('#nat_img').css("display", "none");
         $('#text').css("display", "none");
-        $('#textbox').css("display", "none");
-
+        $('#panel').css("display", "none");
+        $('#rblock').css("display", "none");
+        $('#bblock').css("display", "none");
+        $('#lblock').css('width', img_w);
       };
       size = document.height;
 
@@ -90,10 +204,24 @@
 
     window.onload = function()
       { 
-        document.body.appendChild(img);
-        document.body.appendChild(click);
-        document.body.appendChild(nat_img);
-        document.body.appendChild(textbox);
+
+        var notedfrom = $('#noted-from').text('noted from: '+ GET['d'])
+        var lblock = $('#lblock').css({
+          width: img_w,
+          //position: 'absolute',
+          //top: '0px',
+          //left:'0px'
+        });
+        var bblock = $('#bblock').css({
+          width: nat_img_w,
+        });
+
+        var panel = $('#panel');
+        nat_img.insertBefore(panel);
+        img.insertBefore(panel);
+        click.insertBefore(panel);
+        text.insertBefore(panel);
+        
         $(function() {
           $( "#slider" ).slider({
               slide: function(event, ui) { 
@@ -103,8 +231,14 @@
         
           });
         });
-        var margin_top = parseInt(GET['nh']) + 30;
-        $('#textbox').css("margin-top",  margin_top + "px");
+        $('#dataform').submit(function() {
+          $('#color').attr('value', $('#text').css('color'));
+          $('#size').attr('value', $('#text').css('font-size'));
+          $('#urlpath').attr('value', decodeURIComponent(GET['u']));
+          
+        });
+
+        $('#panel').css("margin-top",  "10px");
         return;
       };
 
@@ -112,13 +246,48 @@
 
   </head>
   <body>
-  <div id="textbox" style="display:none;">
-    <p style="font-size: 14px; float:left;margin:0px;margin-right:10px;margin-top:-2px">T</p>
-    <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="font-size: 14px; width: 40%; float:left;margin:0px""><a class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div>
-    <p style="font-size: 26px; float:left; margin:0px;margin-left:10px; margin-top:-8px">T</p>
-  </div>
+  <form id="dataform" action="/send_data/" method="POST">  
+    <div id="lblock">
+      <div id="panel" style="display:none;">
+        <p style="font-size: 14px; float:left;margin:0px;margin-right:10px;margin-top:-2px">T</p>
+        <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="font-size: 14px; width: 40%; float:left;margin:0px; margin-top:5px">
+          <a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="width:0.5em;"></a>
+        </div>
+        <p style="font-size: 26px; float:left; margin:0px;margin-left:10px; margin-top:-8px">T</p>
+      </div>
+    </div>
+    <div id="rblock">
+      
+      <div id="social">
+          
+          <div><label><img src="icon/big/fb.png"><p> Post to Facebook </p><input type="checkbox" value="1" name="fb"><span></span></label></div>
+          <div><label><img src="icon/big/tw.png"><p> Post to Twitter </p><input type="checkbox" value="1" name="tw"><span></span></label></div>
+          <div><label><img src="icon/big/t.png"><p> Post to Tumblr </p><input type="checkbox" value="1" name="tum"><span></span></label></div>
+          <div><label><img src="icon/big/pin.png"><p> Post to Pinterest </p><input type="checkbox" value="1" name="pin"><span></span></label></div>
+          <div><img src="icon/big/s.png"><p> Email </p></div>
+          <div class="last"><img src="icon/big/em.png"><p> Embed </p></div>
 
+      </div>
+
+    </div>
+    
+    <div id="bblock">
+      <p style="margin-top:60px; margin-bottom:5px;">#tags</p>
+      <input id="tags" name="tags" value='#general, #live' style=" border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
+      <input type="submit" class="sendsubmit" name="send" alt="Submit">
+      <div id='user'>
+        <div id='avatar' style='height:40px; width:40px; background: green; margin-top:auto; margin-bottom:auto; float:left;'></div> 
+        <div id='name' style='text-align: left; margin-top:auto; margin-bottom:auto; float:left;'>
+          <span style="display:block;margin-top: 10px;margin-left: 10px;">TestNick</span>
+        </div>
+      </div>
+
+      <div style="width:100%; border-top: 2px solid gray; margin-top:20px; font-size:14px; font-color:gray"><div id='noted-from' style='padding-top:20px; color: gray'></div></div>
+    </div>
+    <input id="color" name="color" style='display:none'>
+    <input id="size" name="size" style='display:none'>
+    <input id="urlpath" name="path" style='display:none'>
+  </form>  
   <body>
 </html>
-
 
