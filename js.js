@@ -97,14 +97,16 @@ var div_click_event = function(event) {
     new_h = parseInt(GET['nh']) + parseInt(padding)*2 + 300;
     var i_margin_top  = parseInt(new_h)*0.5 + "px";
     var i_margin_left  = parseInt(new_w - 250 )*0.5 + "px";
+
+    var new_t = parseInt(iframe.style.top)+10
+    console.dir(iframe);
+    console.log(new_t);
     
     setProperty(iframe, {},{'h':new_h+"px",
                           'w':new_w+"px",
-                          't':"50%",
                           'l':"50%",
-                          'mt':"-"+i_margin_top,
                           'ml':"-"+i_margin_left,
-                          'p':"fixed",
+                          'p':"absolute",
                           'z':"10005",})
 
     var small_exit_button = createElement("img");
@@ -112,14 +114,14 @@ var div_click_event = function(event) {
     var i_margin_top  = parseInt(new_h)*0.5-7 + "px";
     var i_margin_left  = parseInt(new_w)*0.5-25 + "px";
 
+
     setProperty(small_exit_button, {'s':'https://github.com/Kurmaev/cv/raw/gh-pages/x.png',
                                     'c':'small_exit_button',
                                     'cl':close_iframe_event,}, 
-                                    {'t':"50%",
+                                    {'t': new_t + 'px',
                                     'l':"50%",
-                                    'mt':"-"+i_margin_top,
                                     'ml':i_margin_left,
-                                    'p':"fixed",
+                                    'p':"absolute",
                                     'z':"10006",});
 
 
