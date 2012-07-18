@@ -255,10 +255,25 @@ var createDiv = function(){
 
 createBaseIframe();
 createDiv();
-to_arr(document.getElementsByTagName('img')).filter(function(it){
+
+var ArrayToIframe = function(array) {
+
+  to_arr(array).filter(function(it){
   return it.clientHeight > 100 && it.clientWidth > 300;
 }).map(function(it){
   return [(it)].concat([it['height'], it['width'], it['y'], it['x']], it['naturalHeight'], it['naturalWidth']);
 }).forEach(function(it){
   return createIframe(it);
-});})();
+});
+
+};
+
+ArrayToIframe(document.getElementsByTagName('img'));
+/*
+to_arr(document.getElementsByTagName('iframe')).forEach(function(it){
+  if (it.contentDocument){
+    ArrayToIframe(it.contentDocument.getElementsByTagName('img'));
+  }
+})
+*/
+})();

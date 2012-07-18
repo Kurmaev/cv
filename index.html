@@ -2,12 +2,13 @@
 <html>
   <head>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" type="text/css" media="all">
+  <link rel='stylesheet' href='http://kurmaev.github.com/cv/spectrum.css' />
   <style type="text/css">
   body {
     margin: 0px;
     background-color: transparent;
     text-align: center;
-    }
+  }
   textarea{
     resize:none;
     border: 0px;
@@ -16,7 +17,7 @@
   .ui-widget-content {
     background: gray;
     height: 1px;
-    }
+  }
   .ui-slider-handle{
     margin-top: -4px;
   }
@@ -63,7 +64,7 @@
   }
 
 
-    #social > div > label > p{
+  #social > div > label > p{
     margin: 6px;
     padding: 0;
     float: left;
@@ -87,13 +88,13 @@
     height: 50px;
   }
 
-   label {
+  label {
     width: 52px;
     height: 26px;
     display: inline;
     position: relative;
-   }
-   input[type="checkbox"] + span {
+  }
+  input[type="checkbox"] + span {
     position: absolute;
     right: -10px; top: 2px;
     width: 52px;
@@ -101,10 +102,10 @@
     background: url(icon/big/button3.png) no-repeat;
     background-position: -52px 0;
     cursor: pointer;
-   }
-   input[type="checkbox"]:checked + span {
+  }
+  input[type="checkbox"]:checked + span {
     background-position: 0 0; 
-   }
+  }
   .sendsubmit {
     width:  50px; 
     height: 50px; 
@@ -118,11 +119,28 @@
     z-index:100;
     top: -29px; float:right; position:relative; right:0px;
   }
-   
+  .sp-replacer{
+    color: #bbb;
+    border: 0;
+    background: 0;
+    margin-top: -8px;
+    margin-left: 15px;
+    float: left;
+  }
+  #tags{
+    border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;
+  }
+  #avatar {height:40px; width:40px; background: green; margin-top:auto; margin-bottom:auto; float:left;}
+  #noted-field {width:100%; border-top: 2px solid gray; margin-top:20px; font-size:14px; font-color:gray}
+  #noted-from {padding-top:20px; color: gray}
+  #name {text-align: left; margin-top:auto; margin-bottom:auto; float:left;}
+
   </style>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js" type="text/javascript"></script>
-
+  <script src='http://kurmaev.github.com/cv/spectrum.min.js' type="text/javascript"></script>
+  
+  
   <script type="text/javascript">
     var parts=String(document.location.hash);
     if (parts){
@@ -162,13 +180,14 @@
       id: 'text',
       name: 'text'}).css({ 
         display: 'none',
+        fontSize: '30px',
         height: nat_img_h,
         width: nat_img_w,
         top: '30px', 
         left: '30px',
         position: 'absolute',
         backgroundColor: 'transparent',
-        color: 'white', 
+        color: 'black', 
         zIndex: '100',
         overflow: 'hidden'})
 
@@ -186,7 +205,9 @@
         $('#rblock').css("display", "block");
         $('#bblock').css("display", "block");
         $('#lblock').css('width', nat_img_w)
+        text[0].focus();
       }
+
       else {
 
         $('#note').css("display", "block");
@@ -204,6 +225,7 @@
 
     window.onload = function()
       { 
+        color_input = $("#color");
 
         var notedfrom = $('#noted-from').text('noted from: '+ GET['d'])
         var lblock = $('#lblock').css({
@@ -221,13 +243,24 @@
         img.insertBefore(panel);
         click.insertBefore(panel);
         text.insertBefore(panel);
-        
+      
+        color_input.spectrum({
+            color: "#000000",
+            move: function(color) {               
+                var color = color.toHexString(); 
+                text.css('color', color);
+            },
+            showInitial: true,
+            showButtons: false,
+        });
+      
         $(function() {
           $( "#slider" ).slider({
               slide: function(event, ui) { 
                 $('#text').css("font-size", ui.value+"px");},
               min: 14,
               max:192,
+              value:30,
         
           });
         });
@@ -239,6 +272,7 @@
         });
 
         $('#panel').css("margin-top",  "10px");
+        
         return;
       };
 
@@ -246,14 +280,15 @@
 
   </head>
   <body>
-  <form id="dataform" action="" method="POST">  
+  <form id="dataform" action="/" method="POST">  
     <div id="lblock">
-      <div id="panel" style="display:none;">
+      <div id="panel" style="display:none; text-align:left;">
         <p style="font-size: 14px; float:left;margin:0px;margin-right:10px;margin-top:-2px">T</p>
-        <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="font-size: 14px; width: 40%; float:left;margin:0px; margin-top:5px">
-          <a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="width:0.5em;"></a>
+        <div id="slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="font-size: 16px; width: 40%; float:left;margin:0px; margin-top:5px">
+          <a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="width:0.5em; left:50%;"></a>
         </div>
         <p style="font-size: 26px; float:left; margin:0px;margin-left:10px; margin-top:-8px">T</p>
+        <input type='text' id="color" name="color">
       </div>
     </div>
     <div id="rblock">
@@ -273,21 +308,20 @@
     
     <div id="bblock">
       <p style="margin-top:60px; margin-bottom:5px;">Tags:</p>
-      <input id="tags" name="tags" value='#general, #live' style=" border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
+      <input id="tags" name="tags" value='#general, #live'>
       <input type="submit" class="sendsubmit" name="send" alt="Submit">
       <div id='user'>
-        <div id='avatar' style='height:40px; width:40px; background: green; margin-top:auto; margin-bottom:auto; float:left;'></div> 
-        <div id='name' style='text-align: left; margin-top:auto; margin-bottom:auto; float:left;'>
+        <div id='avatar'></div> 
+        <div id='name' >
           <span style="display:block;margin-top: 10px;margin-left: 10px;">TestNick</span>
         </div>
       </div>
 
-      <div style="width:100%; border-top: 2px solid gray; margin-top:20px; font-size:14px; font-color:gray"><div id='noted-from' style='padding-top:20px; color: gray'></div></div>
+      <div id='noted-field'><div id='noted-from'></div></div>
     </div>
-    <input id="color" name="color" style='display:none'>
+    
     <input id="size" name="size" style='display:none'>
     <input id="urlpath" name="path" style='display:none'>
   </form>  
   <body>
 </html>
-
